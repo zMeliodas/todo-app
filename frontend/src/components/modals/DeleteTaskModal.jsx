@@ -1,6 +1,6 @@
 import React from "react";
 
-const NewTaskModal = () => {
+const NewTaskModal = ({ taskId, onDelete }) => {
   return (
     <dialog
       id="delete_task_modal"
@@ -22,7 +22,15 @@ const NewTaskModal = () => {
             >
               Cancel
             </button>
-            <button className="btn btn-error">Delete</button>
+            <button
+              className="btn btn-error"
+              onClick={() => {
+                onDelete(taskId);
+                document.getElementById("delete_task_modal").close();
+              }}
+            >
+              Delete
+            </button>
           </div>
         </div>
       </div>
