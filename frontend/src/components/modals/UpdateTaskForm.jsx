@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 
-const UpdateTaskForm = ({ task, onUpdateTask }) => {
+const UpdateTaskForm = ({ task, onUpdateTask, onClose }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [date, setDate] = useState("");
+  const [isTitleEmpty, setIsTitleEmpty] = useState(false);
 
   useEffect(() => {
     if (task) {
@@ -15,7 +16,10 @@ const UpdateTaskForm = ({ task, onUpdateTask }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!title) return;
+    if (!title) {
+      setIsTitleEmpty(true);
+      return;
+    }
 
     const updatedTask = {
       id: task.id,
@@ -25,12 +29,11 @@ const UpdateTaskForm = ({ task, onUpdateTask }) => {
     };
 
     onUpdateTask(updatedTask);
-
-    document.getElementById("update_task_modal").close();
+    onClose();
   };
 
   return (
-    <dialog id="update_task_modal" className="modal">
+    <dialog id="update_task_modal" className="modal modal-open">
       <div className="modal-box">
         <h3 className="font-bold font-mulish text-lg mb-4">Update Task</h3>
         <div className="flex flex-col gap-2">
@@ -41,10 +44,20 @@ const UpdateTaskForm = ({ task, onUpdateTask }) => {
               placeholder="Code"
               value={title}
               maxLength={50}
-              onChange={(e) => setTitle(e.target.value)}
+              onChange={(e) => {
+                setTitle(e.target.value);
+                if (e.target.value.trim() !== "") {
+                  setIsTitleEmpty(false);
+                }
+              }}
               className="input input-bordered outline-none! focus:outline-none! focus:ring-0!"
             />
           </div>
+          {isTitleEmpty && (
+            <span className="font-mulish text-error">
+              A task title is required.
+            </span>
+          )}
           <div className="flex flex-col">
             <label className="label">Description</label>
             <input
@@ -71,7 +84,7 @@ const UpdateTaskForm = ({ task, onUpdateTask }) => {
           <button
             type="button"
             className="btn btn-error"
-            onClick={() => document.getElementById("update_task_modal").close()}
+            onClick={() => onClose()}
           >
             Cancel
           </button>

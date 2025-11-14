@@ -10,28 +10,33 @@ function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
   const [deleteId, setDeleteId] = useState(null);
   const [updateTaskState, setUpdateTask] = useState(null);
- 
+  const [isNewTaskModalOpen, setNewTaskModalOpen] = useState(false);
+  const [isDeleteTaskModalOpen, setDeleteTaskModalOpen] = useState(false);
+  const [isUpdateTaskModalOpen, setUpdateTaskModalOpen] = useState(false);
 
   const addTask = (task) => {
     dispatch({ type: "ADD_TASK", payload: task });
+    setNewTaskModalOpen(false);
   };
 
   const removeTask = (id) => {
     dispatch({ type: "REMOVE_TASK", payload: id });
+    setDeleteTaskModalOpen(false);
   };
 
   const updateTask = (updatedTask) => {
     dispatch({ type: "UPDATE_TASK", payload: updatedTask });
+    setUpdateTaskModalOpen(false);
   };
 
   const handleDeleteClick = (id) => {
     setDeleteId(id);
-    document.getElementById("delete_task_modal").showModal();
+    setDeleteTaskModalOpen(true);
   };
 
   const handleUpdateClick = (task) => {
     setUpdateTask(task);
-    document.getElementById("update_task_modal").showModal();
+    setUpdateTaskModalOpen(true);
   };
 
   return (
@@ -52,24 +57,41 @@ function App() {
         <div>
           <button
             className="btn btn-success mr-2 font-mulish"
-            onClick={() =>
-              document.getElementById("new_task_modal").showModal()
-            }
+            onClick={() => setNewTaskModalOpen(true)}
           >
             + New Task
           </button>
         </div>
 
-        <NewTaskForm onAddTask={addTask} />
-        <DeleteTaskModal taskId={deleteId} onDelete={removeTask} />
-        <UpdateTaskForm task={updateTaskState} onUpdateTask={updateTask} />
+        {isNewTaskModalOpen && (
+          <NewTaskForm
+            onAddTask={addTask}
+            onClose={() => setNewTaskModalOpen(false)}
+          />
+        )}
+
+        {isUpdateTaskModalOpen && (
+          <UpdateTaskForm
+            task={updateTaskState}
+            onUpdateTask={updateTask}
+            onClose={() => setUpdateTaskModalOpen(false)}
+          />
+        )}
+
+        {isDeleteTaskModalOpen && (
+          <DeleteTaskModal
+            taskId={deleteId}
+            onDelete={removeTask}
+            onClose={() => setDeleteTaskModalOpen(false)}
+          />
+        )}
 
         <div>
           <ThemeSwitcher />
         </div>
       </div>
 
-      <div className="flex flex-col gap-2 hero bg-base-100 rounded-box shadow-lg p-8">
+      <div className="flex flex-col gap-2 hero bg-base-100 rounded-box shadow-lg p-8 transition duration-1000">
         {state.tasks.length === 0 ? (
           <span className="text-lg font-medium font-mulish text-primary">
             No tasks found.

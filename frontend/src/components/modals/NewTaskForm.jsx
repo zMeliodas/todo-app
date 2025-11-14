@@ -1,14 +1,17 @@
-import React from "react";
 import { useState } from "react";
 
-const NewTaskForm = ({ onAddTask }) => {
+const NewTaskForm = ({ onAddTask, onClose }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [date, setDate] = useState("");
+  const [isTitleEmpty, setIsTitleEmpty] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!title) return;
+    if (!title) {
+      setIsTitleEmpty(true);
+      return;
+    }
 
     const newTask = {
       id: Date.now(),
@@ -22,12 +25,15 @@ const NewTaskForm = ({ onAddTask }) => {
     setTitle("");
     setDescription("");
     setDate("");
-    document.getElementById("new_task_modal").close();
+    onClose();
   };
 
   return (
-    <dialog id="new_task_modal" className="modal">
-      <div className="modal-box">
+    <dialog
+      id="new_task_modal"
+      className="modal modal-open transition duration-500"
+    >
+      <div className="modal-box overflow-y-hidden">
         <h3 className="font-bold font-mulish text-lg mb-4">New Task</h3>
         <div className="flex flex-col gap-2">
           <div className="flex flex-col">
@@ -37,9 +43,19 @@ const NewTaskForm = ({ onAddTask }) => {
               placeholder="Code"
               value={title}
               maxLength={50}
-              onChange={(e) => setTitle(e.target.value)}
+              onChange={(e) => {
+                setTitle(e.target.value);
+                if (e.target.value.trim() !== "") {
+                  setIsTitleEmpty(false);
+                }
+              }}
               className="input input-bordered outline-none! focus:outline-none! focus:ring-0!"
             />
+            {isTitleEmpty && (
+              <span className="font-mulish text-error">
+                A task title is required.
+              </span>
+            )}
           </div>
           <div className="flex flex-col">
             <label className="label">Description</label>
@@ -71,7 +87,7 @@ const NewTaskForm = ({ onAddTask }) => {
               setTitle("");
               setDescription("");
               setDate("");
-              document.getElementById("new_task_modal").close();
+              onClose();
             }}
           >
             Cancel
