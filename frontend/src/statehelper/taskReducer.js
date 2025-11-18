@@ -17,10 +17,11 @@ export const reducer = (state, action) => {
       };
 
     case "UPDATE_TASK":
-
       return {
         ...state,
-        tasks: state.tasks.map((task) => task.id === action.payload.id ? action.payload : task),
+        tasks: state.tasks.map((task) =>
+          task.id === action.payload.id ? action.payload : task
+        ),
       };
 
     default:

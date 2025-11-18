@@ -1,4 +1,5 @@
 import { useState } from "react";
+import DateTimePickerField from "../datepicker/DateTimePickerField";
 
 const NewTaskForm = ({ onAddTask, onClose }) => {
   const [title, setTitle] = useState("");
@@ -28,11 +29,12 @@ const NewTaskForm = ({ onAddTask, onClose }) => {
     onClose();
   };
 
+  const handleReceiveDate = (value) => {
+    setDate(value);
+  };
+
   return (
-    <dialog
-      id="new_task_modal"
-      className="modal modal-open transition duration-500"
-    >
+    <dialog className="modal modal-open transition duration-300">
       <div className="modal-box overflow-y-hidden">
         <h3 className="font-bold font-mulish text-lg mb-4">New Task</h3>
         <div className="flex flex-col gap-2">
@@ -69,12 +71,9 @@ const NewTaskForm = ({ onAddTask, onClose }) => {
           </div>
           <div className="flex flex-col">
             <label className="label">Deadline</label>
-            <input
-              type="text"
-              placeholder="August 5, 2001, 10:00 AM"
-              value={date}
-              onChange={(e) => setDate(e.target.value)}
-              className="input input-bordered w-full outline-none! focus:outline-none! focus:ring-0!"
+            <DateTimePickerField
+              dateTimeValue={handleReceiveDate}
+              btnDescription="Reset"
             />
           </div>
         </div>

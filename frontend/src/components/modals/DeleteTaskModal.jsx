@@ -2,7 +2,7 @@ import React from "react";
 
 const DeleteTaskModal = ({ taskId, onDelete, onClose }) => {
   return (
-    <dialog id="delete_task_modal" className="modal modal-open">
+    <dialog id="delete_task_modal" className="modal modal-open transition duration-300">
       <div className="modal-box">
         <h3 className="font-bold text-lg font-mulish">Delete Task</h3>
         <p className="py-4 font-mulish">
