@@ -1,5 +1,7 @@
+import { getItem } from "../utils/localStorage.js";
+
 export const initialState = {
-  tasks: [],
+  tasks: Array.isArray(getItem("tasks")) ? getItem("tasks") : [],
 };
 
 export const reducer = (state, action) => {

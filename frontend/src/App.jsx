@@ -2,8 +2,9 @@ import ThemeSwitcher from "./components/themeSwitcher/ThemeSwitcher";
 import TaskCard from "./components/task/TaskCard.jsx";
 import NewTaskForm from "./components/modals/NewTaskForm.jsx";
 import DeleteTaskModal from "./components/modals/DeleteTaskModal.jsx";
-import { useReducer, useState } from "react";
+import { useReducer, useState, useEffect } from "react";
 import { reducer, initialState } from "./statehelper/taskReducer.js";
+import { setItem } from "./utils/localStorage.js";
 import UpdateTaskForm from "./components/modals/UpdateTaskForm.jsx";
 
 function App() {
@@ -13,6 +14,10 @@ function App() {
   const [isNewTaskModalOpen, setNewTaskModalOpen] = useState(false);
   const [isDeleteTaskModalOpen, setDeleteTaskModalOpen] = useState(false);
   const [isUpdateTaskModalOpen, setUpdateTaskModalOpen] = useState(false);
+
+  useEffect(() => {
+    setItem("tasks", state.tasks);
+  }, [state.tasks]);
 
   const addTask = (task) => {
     dispatch({ type: "ADD_TASK", payload: task });
@@ -91,7 +96,7 @@ function App() {
         </div>
       </div>
 
-      <div className="flex flex-col gap-2 hero bg-base-100 rounded-box shadow-lg p-8 transition duration-1000">
+      <div className="flex flex-col gap-2 hero bg-base-100 rounded-box shadow-lg p-8">
         {state.tasks.length === 0 ? (
           <span className="text-lg font-medium font-mulish text-primary">
             No tasks found.

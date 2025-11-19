@@ -18,7 +18,7 @@ const TaskCard = ({
 
   return (
     <div
-      className={`flex hero rounded-lg shadow-lg p-4 gap-1 transition duration-300 ${
+      className={`flex hero rounded-lg shadow-lg p-4 gap-1 ${
         checked ? "bg-success" : "bg-primary"
       }`}
     >
