@@ -1,7 +1,6 @@
 import { useState } from "react";
 
-const TaskFilterDropDown = ({selectedFilter, onFilterChange}) => {
-
+const TaskFilterDropDown = ({ selectedFilter, onFilterChange }) => {
   const options = ["Completed", "Important", "All Tasks"];
 
   return (
@@ -10,7 +9,9 @@ const TaskFilterDropDown = ({selectedFilter, onFilterChange}) => {
       onChange={(e) => onFilterChange(e.target.value)}
       className="select select-bordered font-mulish font-bold w-30 outline-none! focus: border-transparent! focus:outline-none! focus:ring-0!"
     >
-      <option className="bg-primary" disabled value="">Filter Tasks</option>
+      <option disabled value="">
+        Filter Tasks
+      </option>
       {options.map((option) => (
         <option key={option} value={option}>
           {option}

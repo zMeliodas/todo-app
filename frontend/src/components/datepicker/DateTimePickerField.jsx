@@ -29,7 +29,7 @@ function DateTimePickerField({ dateTimeValue, initialValue, btnDescription }) {
 
     const formatted = selectedDate
       ? selectedTime
-        ? `${selectedDate} ${selectedTime}`
+        ? `${selectedDate} at ${selectedTime}`
         : selectedDate
       : "";
 
