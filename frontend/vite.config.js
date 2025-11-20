@@ -8,4 +8,5 @@ export default defineConfig({
   daisyui: {
     themes: true,
   },
+  base:"/todo-app/"
 });
