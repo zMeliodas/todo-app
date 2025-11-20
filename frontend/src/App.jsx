@@ -6,6 +6,7 @@ import { useReducer, useState, useEffect } from "react";
 import { reducer, initialState } from "./statehelper/taskReducer.js";
 import { setItem } from "./utils/localStorage.js";
 import UpdateTaskForm from "./components/modals/UpdateTaskForm.jsx";
+import TaskFilterDropDown from "./components/common/TaskFilterDropDown.jsx";
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -14,6 +15,20 @@ function App() {
   const [isNewTaskModalOpen, setNewTaskModalOpen] = useState(false);
   const [isDeleteTaskModalOpen, setDeleteTaskModalOpen] = useState(false);
   const [isUpdateTaskModalOpen, setUpdateTaskModalOpen] = useState(false);
+
+  const getFilteredTasks = () => {
+    switch (state.filter) {
+      case "Completed":
+        return state.tasks.filter((task) => task.completed);
+      case "Important":
+        return state.tasks.filter((task) => task.important);
+      case "All Tasks":
+      default:
+        return state.tasks;
+    }
+  };
+
+  const filteredTasks = getFilteredTasks();
 
   useEffect(() => {
     setItem("tasks", state.tasks);
@@ -44,9 +59,17 @@ function App() {
     setUpdateTaskModalOpen(true);
   };
 
+  const handleTaskChange = (updatedTask) => {
+    dispatch({ type: "UPDATE_TASK", payload: updatedTask });
+  };
+
+  const handleFilterChange = (filter) => {
+    dispatch({ type: "SET_FILTER", payload: filter });
+  };
+
   return (
-    <div className="min-h-screen bg-base-300 p-8">
-      <div className="navbar bg-base-100 rounded-box shadow-lg mb-8 px-4">
+    <div className="h-screen bg-base-300 p-8">
+      <div className="navbar bg-base-100 rounded-box shadow-lg mb-2 px-4">
         <div className="flex-1">
           <span className="inline-block text-xl text-primary font-bold font-mulish">
             To-
@@ -96,13 +119,20 @@ function App() {
         </div>
       </div>
 
-      <div className="flex flex-col gap-2 hero bg-base-100 rounded-box shadow-lg p-8">
-        {state.tasks.length === 0 ? (
+      <TaskFilterDropDown
+        selectedFilter={state.filter}
+        onFilterChange={handleFilterChange}
+      />
+
+      <div className="flex flex-col gap-2 hero bg-base-100 rounded-box shadow-lg p-8 mt-2">
+        {filteredTasks.length === 0 ? (
           <span className="text-lg font-medium font-mulish text-primary">
-            No tasks found.
+            {state.filter === "All Tasks"
+              ? "No tasks found."
+              : `No ${state.filter.toLowerCase()} tasks found.`}
           </span>
         ) : (
-          state.tasks.map((task) => (
+          filteredTasks.map((task) => (
             <TaskCard
               task={task}
               key={task.id}
@@ -111,6 +141,7 @@ function App() {
               date={task.date}
               onUpdateClick={() => handleUpdateClick(task)}
               onDeleteClick={() => handleDeleteClick(task.id)}
+              onTaskChange={handleTaskChange}
             />
           ))
         )}

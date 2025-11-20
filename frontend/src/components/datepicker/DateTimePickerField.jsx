@@ -25,6 +25,18 @@ function DateTimePickerField({ dateTimeValue, initialValue, btnDescription }) {
   }, [initialValue]);
 
   useEffect(() => {
+    if (!dateTimeValue) return;
+
+    const formatted = selectedDate
+      ? selectedTime
+        ? `${selectedDate} ${selectedTime}`
+        : selectedDate
+      : "";
+
+    dateTimeValue(formatted);
+  }, [selectedDate, selectedTime]);
+
+  useEffect(() => {
     const calendar = calendarRef.current;
     if (!calendar) return;
 
@@ -74,7 +86,6 @@ function DateTimePickerField({ dateTimeValue, initialValue, btnDescription }) {
   const handleReset = () => {
     setSelectedDate("");
     setSelectedTime("");
-    dateTimeValue("");
   };
 
   const formatDateTime = () => {
@@ -86,13 +97,9 @@ function DateTimePickerField({ dateTimeValue, initialValue, btnDescription }) {
       year: "numeric",
     });
 
-    const formattedDateTime = selectedTime
+    return selectedTime
       ? `${dateStr} at ${formatTimeTo12Hour(selectedTime)}`
       : dateStr;
-
-    dateTimeValue(formattedDateTime);
-
-    return formattedDateTime;
   };
 
   const formatTimeTo12Hour = (time) => {

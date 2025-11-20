@@ -47,7 +47,7 @@ function ThemeSwitcher() {
     <select
       value={theme}
       onChange={(e) => setTheme(e.target.value)}
-      className="select select-bordered w-full max-w-xs outline-none! focus:outline-none! focus:ring-0!"
+      className="select select-bordered border-neutral w-full max-w-xs font-mulish font-bold outline-none! focus:outline-none! focus:ring-0!"
     >
       {themes.map((t) => (
         <option key={t} value={t}>

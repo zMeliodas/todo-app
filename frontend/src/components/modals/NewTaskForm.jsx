@@ -9,7 +9,7 @@ const NewTaskForm = ({ onAddTask, onClose }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!title) {
+    if (!title.trim()) {
       setIsTitleEmpty(true);
       return;
     }
@@ -19,6 +19,8 @@ const NewTaskForm = ({ onAddTask, onClose }) => {
       title,
       description,
       date,
+      completed: false,
+      important: false,
     };
 
     onAddTask(newTask);

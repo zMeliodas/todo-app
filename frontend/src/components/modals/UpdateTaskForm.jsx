@@ -17,7 +17,7 @@ const UpdateTaskForm = ({ task, onUpdateTask, onClose }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!title) {
+    if (!title.trim()) {
       setIsTitleEmpty(true);
       return;
     }
