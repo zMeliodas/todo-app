@@ -68,7 +68,7 @@ function App() {
   };
 
   return (
-    <div className="h-screen bg-base-300 p-8 overflow-auto">
+    <div className="h-screen bg-base-300 p-8 overflow-y-auto">
       <div className="navbar bg-base-100 rounded-box shadow-lg mb-2 px-4">
         <div className="flex-1">
           <span className="inline-block text-xl text-primary font-bold font-mulish">
@@ -84,7 +84,7 @@ function App() {
 
         <div>
           <button
-            className="btn btn-success mr-2 font-mulish"
+            className="btn btn-md btn-success mr-2 font-mulish"
             onClick={() => setNewTaskModalOpen(true)}
           >
             + New Task

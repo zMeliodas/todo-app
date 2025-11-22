@@ -17,32 +17,32 @@ const TaskCard = ({
         task.completed ? "bg-success" : "bg-primary"
       }`}
     >
-      <div className="flex flex-1 flex-col wrap-break-word min-w-0">
+      <div className="flex flex-1 flex-col min-w-0">
         <span
-          className={`text-xl font-bold font-mulish transition duration-300 ${
+          className={`text-md sm:text-xl font-bold font-mulish transition wrap-break-word duration-300 ${
             task.completed ? "text-success-content" : "text-primary-content"
           }`}
         >
           {title}
         </span>
         <span
-          className={`text-lg font-medium font-mulish wrap-break-word transition duration-300 ${
+          className={`text-xs sm:text-lg font-medium font-mulish wrap-break-word transition text-justify duration-300 ${
             task.completed ? "text-success-content" : "text-primary-content"
           }`}
         >
           {description}
         </span>
         <span
-          className={`text-md font-light font-mulish transition duration-300 ${
+          className={`text-xs sm:text-lg font-light font-mulish transition pt-2 duration-300 ${
             task.completed ? "text-success-content" : "text-primary-content"
           }`}
         >
-          {date}
+          Deadline: {date}
         </span>
       </div>
 
-      <div className="flex gap-2">
-        <div className="tooltip font-mulish font-medium tooltip-info" data-tip="Set task as Completed">
+      <div className="flex flex-col sm:flex-row gap-2 ml-2">
+        <div className="tooltip font-mulish font-medium tooltip-info ml-1" data-tip="Set task as Completed">
           <input
             type="checkbox"
             checked={task.completed}
@@ -50,11 +50,11 @@ const TaskCard = ({
               e.stopPropagation();
               onTaskChange({ ...task, completed: !task.completed });
             }}
-            className="checkbox checkbox-xl border-neutral-content bg-neutral transition duration-300 checked:border-success-content checked:bg-success checked:text-success-content"
+            className="checkbox checkbox-sm sm:checkbox-xl border-neutral-content bg-neutral transition duration-300 checked:border-success-content checked:bg-success checked:text-success-content"
           />
         </div>
 
-        <div className="tooltip font-mulish font-medium tooltip-info" data-tip="Set task as Important">
+        <div className="tooltip font-mulish font-medium tooltip-info ml-1" data-tip="Set task as Important">
           <input
             type="checkbox"
             checked={task.important}
@@ -62,21 +62,21 @@ const TaskCard = ({
               e.stopPropagation;
               onTaskChange({ ...task, important: !task.important });
             }}
-            className="checkbox checkbox-xl mask mask-star-2 border-neutral-content bg-neutral transition duration-300 text-transparent checked:border-[#ffff00] checked:bg-[#ffff00] checked:text-transparent"
+            className="checkbox checkbox-sm sm:checkbox-xl mask mask-star-2 border-neutral-content bg-neutral transition duration-300 text-transparent checked:border-[#ffff00] checked:bg-[#ffff00] checked:text-transparent"
           />
         </div>
 
         <button
-          className="btn btn-sm btn-info"
+          className="btn btn-xs sm:btn-sm btn-info"
           onClick={() => {
             onUpdateClick(task);
           }}
         >
-          <FaRegEdit className="w-4 h-4" />
+          <FaRegEdit className="w-3 h-3 sm:w-4 sm:h-4" />
         </button>
 
-        <button className="btn btn-sm btn-error" onClick={onDeleteClick}>
-          <MdDelete className="w-4 h-4" />
+        <button className="btn btn-xs sm:btn-sm btn-error" onClick={onDeleteClick}>
+          <MdDelete className="w-3 h-3 sm:w-4 sm:h-4" />
         </button>
       </div>
     </div>
